@@ -2,6 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 // 多入口管理文件
 const entryJSON = require('./entry.json')
 
@@ -35,6 +36,7 @@ module.exports = {
       root: path.resolve(__dirname, '../'), // 设置root
       verbose: true
     }),
+    new ExtractTextPlugin('style.css'),
     new webpack.optimize.SplitChunksPlugin({
       name: true,
       cacheGroups: {
@@ -72,27 +74,39 @@ module.exports = {
       // css loader
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              root: path.resolve(__dirname, '../src/stylus'),
-              minimize: true, // 压缩css代码
-              // sourceMap: true, // sourceMap，默认关闭
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            { loader: 'css-loader', options: { importLoaders: 1 } },
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: 'inline'
+              }
             }
-          }
-        ]
+          ]
+        })
       },
       {
         test: /\.styl$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'stylus-loader'
-          }
-        ]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: 'inline'
+              }
+            },
+            'stylus-loader'
+          ]
+        })
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
