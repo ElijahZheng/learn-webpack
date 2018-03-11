@@ -20,3 +20,5 @@ webpack 4
 6. image-webpack-loader 压缩图片    
 7. SplitChunksPlugin 提取公共js
 8. postcss-loader 自动增加css3前缀
+9. html-withimg-loader 增加html识别图片路径
+10. 分类css img js 到不同的文件夹中
