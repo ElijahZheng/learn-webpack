@@ -19,3 +19,4 @@ webpack 4
 5. babel-loader 转es5
 6. image-webpack-loader 压缩图片    
 7. SplitChunksPlugin 提取公共js
+8. postcss-loader 自动增加css3前缀
