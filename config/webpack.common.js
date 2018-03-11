@@ -36,7 +36,7 @@ module.exports = {
       root: path.resolve(__dirname, '../'), // 设置root
       verbose: true
     }),
-    new ExtractTextPlugin('style.css'),
+    new ExtractTextPlugin('css/[name].css'),
     new webpack.optimize.SplitChunksPlugin({
       name: true,
       cacheGroups: {
@@ -54,7 +54,7 @@ module.exports = {
     })
   ].concat(plugins),
   output: {
-    filename: '[name].[hash].js',
+    filename: 'js/[name].[hash].js',
     path: path.resolve(__dirname, '..', 'dist'),
     publicPath: '/'
   },
@@ -65,6 +65,10 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.html$/,
+        loader: 'html-withimg-loader'
+　　　　},
       // 转es5
       {
         test: /\.js$/,
